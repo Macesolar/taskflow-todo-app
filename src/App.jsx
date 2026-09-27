@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import Header from "./components/Header";
+import Header from "./components/header";
 import TaskForm from "./components/TaskForm";
 import TaskFilters from "./components/TaskFilters";
 import TaskList from "./components/TaskList";
 import "./App.css";
 
 const STORAGE_KEY = "taskflow_tasks";
+const THEME_KEY = "taskflow_theme";
 
 function App() {
   const [tasks, setTasks] = useState(() => {
@@ -18,12 +19,21 @@ function App() {
     }
   });
 
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem(THEME_KEY) || "light";
+  });
+
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
   }, [tasks]);
+
+  useEffect(() => {
+    localStorage.setItem(THEME_KEY, theme);
+    document.body.dataset.theme = theme;
+  }, [theme]);
 
   const addTask = (task) => {
     setTasks((currentTasks) => [
@@ -84,7 +94,10 @@ function App() {
     });
   }, [tasks, filter, search]);
 
-  const completedCount = tasks.filter((task) => task.completed).length;
+  const completedCount = tasks.filter(
+    (task) => task.completed
+  ).length;
+
   const activeCount = tasks.length - completedCount;
 
   const progress =
@@ -95,6 +108,23 @@ function App() {
   return (
     <div className="app">
       <main className="container">
+        <div className="top-bar">
+          <div className="brand">
+            <div className="brand-icon">✓</div>
+            <span>TaskFlow</span>
+          </div>
+
+          <button
+            className="theme-button"
+            onClick={() =>
+              setTheme(theme === "light" ? "dark" : "light")
+            }
+            aria-label="Toggle theme"
+          >
+            {theme === "light" ? "☾" : "☀"}
+          </button>
+        </div>
+
         <Header
           totalTasks={tasks.length}
           activeCount={activeCount}
@@ -120,6 +150,11 @@ function App() {
           onDelete={deleteTask}
           onEdit={editTask}
         />
+
+        <footer>
+          <span>TaskFlow</span>
+          <span>Built with React</span>
+        </footer>
       </main>
     </div>
   );

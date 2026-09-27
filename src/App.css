@@ -1,3 +1,101 @@
+body {
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 35px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #6366f1;
+  color: white;
+  font-size: 16px;
+}
+
+.theme-button {
+  width: 42px;
+  height: 42px;
+  border: 1px solid #e5e5ed;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.2s;
+}
+
+.theme-button:hover {
+  transform: rotate(10deg);
+}
+
+.description-input {
+  width: 100%;
+  min-height: 80px;
+  padding: 14px;
+  resize: vertical;
+  border: 1px solid #e5e5ed;
+  border-radius: 12px;
+  outline: none;
+  background: #fafafa;
+  color: #202027;
+  font: inherit;
+}
+
+.description-input:focus {
+  border-color: #6366f1;
+  background: white;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: minmax(0, 150px) minmax(0, 150px) minmax(0, 1fr);
+  gap: 10px;
+}
+
+.task-description {
+  margin: 6px 0 0;
+  color: #858595;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.due-date.overdue {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.due-date.today {
+  color: #6366f1;
+  font-weight: 700;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 45px;
+  padding: 20px 5px;
+  color: #999;
+  font-size: 12px;
+  border-top: 1px solid #e8e8ef;
+}
 .app {
   min-height: 100vh;
   padding: 50px 20px;
@@ -89,7 +187,7 @@
 
 .task-form {
   display: grid;
-  grid-template-columns: 1fr 150px 150px auto;
+  grid-template-columns: minmax(0, 1fr);
   gap: 10px;
   padding: 12px;
   background: white;
@@ -421,16 +519,13 @@
     width: auto;
   }
 
-  .task-form {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .input-wrapper {
-    grid-column: 1 / -1;
+  .form-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .add-button {
     width: 100%;
+    grid-column: 1 / -1;
   }
 
   .toolbar {
@@ -461,12 +556,8 @@
     letter-spacing: -2px;
   }
 
-  .task-form {
+  .form-row {
     grid-template-columns: 1fr;
-  }
-
-  .input-wrapper {
-    grid-column: auto;
   }
 
   .filters {
@@ -476,4 +567,119 @@
   .task-item {
     padding: 14px;
   }
+}
+
+body[data-theme="dark"] {
+  color-scheme: dark;
+  background: #19191f;
+  color: #ededf4;
+}
+
+body[data-theme="dark"] .theme-button,
+body[data-theme="dark"] .progress-card,
+body[data-theme="dark"] .task-form,
+body[data-theme="dark"] .task-item {
+  border-color: #383842;
+  background: #24242d;
+  color: #ededf4;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+}
+
+body[data-theme="dark"] .description-input,
+body[data-theme="dark"] .task-form input,
+body[data-theme="dark"] .task-form select,
+body[data-theme="dark"] .edit-wrapper input,
+body[data-theme="dark"] .search-box {
+  border-color: #41414c;
+  background: #2d2d37;
+  color: #ededf4;
+}
+
+body[data-theme="dark"] .search-box input {
+  color: #ededf4;
+}
+
+body[data-theme="dark"] .description-input::placeholder,
+body[data-theme="dark"] .task-form input::placeholder,
+body[data-theme="dark"] .search-box input::placeholder {
+  color: #a0a0af;
+}
+
+body[data-theme="dark"] .progress-bar {
+  background: #393943;
+}
+
+body[data-theme="dark"] .stats,
+body[data-theme="dark"] .subtitle,
+body[data-theme="dark"] .task-description,
+body[data-theme="dark"] .due-date,
+body[data-theme="dark"] .filters button,
+body[data-theme="dark"] .clear-completed,
+body[data-theme="dark"] .clear-input,
+body[data-theme="dark"] footer {
+  color: #a0a0af;
+}
+
+body[data-theme="dark"] footer {
+  border-color: #383842;
+}
+
+body[data-theme="dark"] .filters button.active {
+  background: #34334f;
+  color: #aaa8ff;
+}
+
+body[data-theme="dark"] .task-item:hover {
+  border-color: #555575;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.22);
+}
+
+body[data-theme="dark"] .check-button,
+body[data-theme="dark"] .task-actions button,
+body[data-theme="dark"] .edit-wrapper button {
+  border-color: #4b4b57;
+  background: #30303a;
+  color: #ededf4;
+}
+
+body[data-theme="dark"] .completed .check-button {
+  border-color: #6366f1;
+  background: #6366f1;
+}
+
+body[data-theme="dark"] .task-actions button:hover {
+  background: #41414d;
+}
+
+body[data-theme="dark"] .priority.low {
+  background: #1e3a2b;
+  color: #86efac;
+}
+
+body[data-theme="dark"] .priority.medium {
+  background: #43351d;
+  color: #fcd34d;
+}
+
+body[data-theme="dark"] .priority.high {
+  background: #47282d;
+  color: #fca5a5;
+}
+
+body[data-theme="dark"] .due-date.overdue {
+  color: #f87171;
+}
+
+body[data-theme="dark"] .due-date.today {
+  color: #aaa8ff;
+}
+
+body[data-theme="dark"] .empty-state {
+  border-color: #41414c;
+  background: rgba(36, 36, 45, 0.6);
+}
+
+body[data-theme="dark"] .empty-icon {
+  background: #34334f;
+  color: #aaa8ff;
 }

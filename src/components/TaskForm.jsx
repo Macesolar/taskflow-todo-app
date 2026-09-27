@@ -2,6 +2,7 @@ import { useState } from "react";
 
 function TaskForm({ onAddTask }) {
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("medium");
   const [dueDate, setDueDate] = useState("");
 
@@ -12,11 +13,13 @@ function TaskForm({ onAddTask }) {
 
     onAddTask({
       title: title.trim(),
+      description: description.trim(),
       priority,
       dueDate,
     });
 
     setTitle("");
+    setDescription("");
     setPriority("medium");
     setDueDate("");
   };
@@ -42,25 +45,40 @@ function TaskForm({ onAddTask }) {
         )}
       </div>
 
-      <select
-        value={priority}
-        onChange={(event) => setPriority(event.target.value)}
-      >
-        <option value="low">Low priority</option>
-        <option value="medium">Medium priority</option>
-        <option value="high">High priority</option>
-      </select>
-
-      <input
-        type="date"
-        value={dueDate}
-        onChange={(event) => setDueDate(event.target.value)}
+      <textarea
+        className="description-input"
+        placeholder="Add a short description (optional)"
+        value={description}
+        onChange={(event) =>
+          setDescription(event.target.value)
+        }
       />
 
-      <button type="submit" className="add-button">
-        <span>+</span>
-        Add task
-      </button>
+      <div className="form-row">
+        <select
+          value={priority}
+          onChange={(event) =>
+            setPriority(event.target.value)
+          }
+        >
+          <option value="low">Low priority</option>
+          <option value="medium">Medium priority</option>
+          <option value="high">High priority</option>
+        </select>
+
+        <input
+          type="date"
+          value={dueDate}
+          onChange={(event) =>
+            setDueDate(event.target.value)
+          }
+        />
+
+        <button type="submit" className="add-button">
+          <span>+</span>
+          Add task
+        </button>
+      </div>
     </form>
   );
 }

@@ -19,6 +19,23 @@ function TaskItem({
     setIsEditing(false);
   };
 
+  const getDateStatus = (date) => {
+    if (!date || task.completed) return "";
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const due = new Date(`${date}T00:00:00`);
+
+    if (due < today) return "overdue";
+
+    if (due.getTime() === today.getTime()) {
+      return "today";
+    }
+
+    return "";
+  };
+
   const formatDate = (date) => {
     if (!date) return null;
 
@@ -30,6 +47,8 @@ function TaskItem({
     });
   };
 
+  const dateStatus = getDateStatus(task.dueDate);
+
   return (
     <article
       className={`task-item ${
@@ -39,11 +58,7 @@ function TaskItem({
       <button
         className="check-button"
         onClick={() => onToggle(task.id)}
-        aria-label={
-          task.completed
-            ? "Mark task as active"
-            : "Mark task as completed"
-        }
+        aria-label="Toggle task"
       >
         {task.completed && "✓"}
       </button>
@@ -84,14 +99,27 @@ function TaskItem({
           <>
             <h3>{task.title}</h3>
 
+            {task.description && (
+              <p className="task-description">
+                {task.description}
+              </p>
+            )}
+
             <div className="task-meta">
               <span className={`priority ${task.priority}`}>
                 {task.priority}
               </span>
 
               {task.dueDate && (
-                <span className="due-date">
-                  📅 {formatDate(task.dueDate)}
+                <span
+                  className={`due-date ${dateStatus}`}
+                >
+                  📅{" "}
+                  {dateStatus === "overdue"
+                    ? `Overdue · ${formatDate(task.dueDate)}`
+                    : dateStatus === "today"
+                    ? "Due today"
+                    : formatDate(task.dueDate)}
                 </span>
               )}
             </div>
